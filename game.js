@@ -1,40 +1,29 @@
 let buttonColors = ["red", "blue", "green", "yellow"];
 
 let gamePattern = [];
+let userClickedPattern = []
+
+$(".btn").on("click", function() { //addEventListener to all .btn classes
+  let userChosenColor = $(this).attr("id");
+  userClickedPattern.push(userChosenColor);
+  playSound(userChosenColor);
+});
+
+// function clickHandler() {
+//   console.log("yes");
+// }
 
 function nextSequence() {
-  let randomNumber = Math.floor(Math.random() * 4); //create number between 0 and 3 (for array)
+  let randomNumber = Math.floor(Math.random() * 4);
   let randomChosenColor = buttonColors[randomNumber];
   gamePattern.push(randomChosenColor);
+
+  //make button flash and play audio
   $("#" + randomChosenColor).fadeOut(100).fadeIn(100);
-  makeSound(randomChosenColor);
+  playSound(randomChosenColor);
 }
 
-function makeSound(color) {
-  switch (color) {
-
-    case "red":
-      let red = new Audio("sounds/red.mp3");
-      red.play();
-      break;
-
-    case "blue":
-      let blue = new Audio("sounds/blue.mp3");
-      blue.play();
-      break;
-
-    case "green":
-      let green = new Audio("sounds/green.mp3");
-      green.play();
-      break;
-
-    case "yellow":
-      let yellow = new Audio("sounds/yellow.mp3");
-      yellow.play();
-      break;
-
-    default:
-      console.log("color");
-
-  }
+function playSound(color) {
+  let audio = new Audio("sounds/" + color + ".mp3");
+  audio.play();
 }

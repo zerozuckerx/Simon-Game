@@ -30,11 +30,22 @@ function nextSequence() {
   // make button flash and play audio
   $("#" + randomChosenColor).fadeOut(100).fadeIn(100);
   playSound(randomChosenColor);
-;
 }
 
 function checkAnswer(currentLevel) {
-
+	// let lastColor = userClickedPattern.at(-1); //string e.g. "red"
+	// let lastIndex = buttonColors.indexOf(lastColor);
+	//
+	// console.log("game pattern: " + gamePattern);
+	// console.log("user pattern: " + userClickedPattern);
+	//
+	// if(gamePattern[lastIndex] === lastColor) {
+	// 	console.log("success");
+	// 	setTimeout(nextSequence(), 5000);
+	// } else {
+	// 	console.log("wrong");
+	// }
+	console.log(currentLevel);
 }
 	// }
 
@@ -47,7 +58,7 @@ $(".btn").on("click", function() {
 
   playSound(userChosenColor);
 	animatePress(userChosenColor);
-	checkAnswer(userChosenColor);
+	checkAnswer(userClickedPattern.length - 1);
 });
 
 // creates sound object for the pressed color and plays it

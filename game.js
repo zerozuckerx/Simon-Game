@@ -33,22 +33,33 @@ function nextSequence() {
 }
 
 function checkAnswer(currentLevel) {
-	// let lastColor = userClickedPattern.at(-1); //string e.g. "red"
-	// let lastIndex = buttonColors.indexOf(lastColor);
-	//
-	// console.log("game pattern: " + gamePattern);
-	// console.log("user pattern: " + userClickedPattern);
-	//
-	// if(gamePattern[lastIndex] === lastColor) {
-	// 	console.log("success");
-	// 	setTimeout(nextSequence(), 5000);
-	// } else {
-	// 	console.log("wrong");
-	// }
-	console.log(currentLevel);
-}
-	// }
+	//let lastIndex = buttonColors.indexOf(lastColor);
 
+	console.log("game pattern: " + gamePattern + "\n"
+						+ "user pattern: " + userClickedPattern);
+
+	if(userClickedPattern[currentLevel] === gamePattern[currentLevel]) {
+		console.log("success");
+		if(userClickedPattern.length === gamePattern.length) {
+			setTimeout(nextSequence, 1000);
+			userClickedPattern = [];
+		}
+	} else {
+		console.log("wrong");
+		
+	}
+}
+
+// _________________________________________
+// 1. gamePattern = ["red"]
+// wenn userClickedPattern[0] = gamePattern[0]
+// 	nextSequence()
+// else
+// 	reset()
+// 2. gamePattern = ["red", "blue"]
+// userClickedPattern = [] in nextSequence()
+// wenn userClickedPattern[0] = gamePattern[0]
+// _________________________________________
 
 // addEventListener to all .btn classes
 $(".btn").on("click", function() {
@@ -60,6 +71,16 @@ $(".btn").on("click", function() {
 	animatePress(userChosenColor);
 	checkAnswer(userClickedPattern.length - 1);
 });
+
+function reset() {
+	//set screen to red background
+	//message: enter to play again
+	//wait for user to press enter
+	gameRunning = false;
+	gamePattern = [];
+	userClickedPattern = [];
+	level = 1;
+}
 
 // creates sound object for the pressed color and plays it
 function playSound(color) {

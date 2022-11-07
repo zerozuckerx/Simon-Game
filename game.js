@@ -10,8 +10,6 @@ $(document).keydown(function(event) {
 
 	if(!gameRunning && event.key === "Enter") {
 		// !gameRunning is equal to gameRunning === false
-
-		// $("#level-title").text("Level " + level);
 		nextSequence();
 		gameRunning = true;
 	}
@@ -20,7 +18,6 @@ $(document).keydown(function(event) {
 function nextSequence() {
 
 	$("#level-title").text("Level " + level);
-
 	level++;
 
   let randomNumber = Math.floor(Math.random() * 4);
@@ -33,33 +30,18 @@ function nextSequence() {
 }
 
 function checkAnswer(currentLevel) {
-	//let lastIndex = buttonColors.indexOf(lastColor);
-
-	console.log("game pattern: " + gamePattern + "\n"
-						+ "user pattern: " + userClickedPattern);
 
 	if(userClickedPattern[currentLevel] === gamePattern[currentLevel]) {
-		console.log("success");
 		if(userClickedPattern.length === gamePattern.length) {
 			setTimeout(nextSequence, 1000);
 			userClickedPattern = [];
 		}
 	} else {
-		console.log("wrong");
-		
+		let audioWrong = new Audio("sounds/wrong.mp3");
+		audioWrong.play();
+		reset();
 	}
 }
-
-// _________________________________________
-// 1. gamePattern = ["red"]
-// wenn userClickedPattern[0] = gamePattern[0]
-// 	nextSequence()
-// else
-// 	reset()
-// 2. gamePattern = ["red", "blue"]
-// userClickedPattern = [] in nextSequence()
-// wenn userClickedPattern[0] = gamePattern[0]
-// _________________________________________
 
 // addEventListener to all .btn classes
 $(".btn").on("click", function() {
@@ -73,13 +55,18 @@ $(".btn").on("click", function() {
 });
 
 function reset() {
-	//set screen to red background
+	//flash screen with red background
+	$("body").addClass("game-over");
+	setTimeout(function() {
+		$("body").removeClass("game-over");
+	}, 200);
+
 	//message: enter to play again
-	//wait for user to press enter
+	$("#level-title").text("Game over. \nEnter to try again");
+
+	level = 1;
 	gameRunning = false;
 	gamePattern = [];
-	userClickedPattern = [];
-	level = 1;
 }
 
 // creates sound object for the pressed color and plays it

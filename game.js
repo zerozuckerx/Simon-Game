@@ -4,7 +4,12 @@ let gameRunning = false;
 let level = 1;
 
 let gamePattern = [];
-let userClickedPattern = []
+let userClickedPattern = [];
+
+let highScore = localStorage.getItem("highScore") || 0;
+
+let playerName = prompt("What's your name");
+let highscoreList = [];
 
 $(document).keydown(function(event) {
 
@@ -39,7 +44,27 @@ function checkAnswer(currentLevel) {
 	} else {
 		let audioWrong = new Audio("sounds/wrong.mp3");
 		audioWrong.play();
+
+		addHighscore();
 		reset();
+	}
+}
+
+function addHighscore() {
+
+	let gameScore = (gamePattern.length - 1);
+
+	if (gameScore < highScore && gameScore > 0) {
+
+		$(".game-info").append("<p class='highscore'>" + playerName + ": " + gameScore + "</p>");
+	}
+
+	else if(gameScore > highScore && gameScore > 0) {
+
+		highScore = gameScore;
+		localStorage.setItem("highScore", highScore);
+
+		$("h2").after("<p class='highscore'>" + playerName + ": " + gameScore + "</p>");
 	}
 }
 
@@ -62,11 +87,12 @@ function reset() {
 	}, 200);
 
 	//message: enter to play again
-	$("#level-title").text("Game over. \nEnter to try again");
+	$("#level-title").text("Game over. Enter to try again. Highscore: " + highScore);
 
 	level = 1;
 	gameRunning = false;
 	gamePattern = [];
+	userClickedPattern = [];
 }
 
 // creates sound object for the pressed color and plays it
